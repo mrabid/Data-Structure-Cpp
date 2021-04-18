@@ -1,82 +1,44 @@
-#include <iostream>
-using namespace std;
+#include <stdio.h>
 
-// Data structure for binary search tree node
-struct Node
+int main(void)
 {
-    int key;
-    Node *left, *right;
-};
 
-// Utility function to create a new binary search tree node
-Node *allocateNode(int key)
-{
-    Node *node = new Node;
+    int sortedArray[7],array[] = {1,2,3,4,5,6,7};
+    int i,j,k,temp;
+    k = 0;
+    j= 6;
 
-    node->key = key;
-    node->left = NULL;
-    node->right = NULL;
-
-    return node;
-}
-
-// Function to insert a specified key in the binary search tree rooted at
-// specified node and also find its successor
-void insert(Node *&root, int key, int &successor)
-{
-    // base case: empty tree
-    if (root == NULL)
+//sorted array in ascending order
+    for(i=0; i<7; i++)
     {
-        root = allocateNode(key);
-        return;
+        for(j=i+1; j<7; j++)
+        {
+            if(array[j] <array[i])
+            {
+                temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+    }
+    i = 0;
+    j = 6;
+
+    while(i<j)
+    {
+        printf("%d %d\n",i,j);
+        sortedArray[k++] = array[i++];
+        // i++;
+        sortedArray[k++] = array[j--];
+        // k++;
+        // j--;
     }
 
-    // if the key is less than root
-    if (key < root->key)
+    for(i=0; i<7; i++)
     {
-        // set successor as current node
-        successor = root->key;
-
-        // traverse the left subtree
-        insert(root->left, key, successor);
+        printf("%d ",sortedArray[i]);
     }
-
-    // if the key is more than root
-    else if (key > root->key)
-    {
-        // traverse the right subtree
-        insert(root->right, key, successor);
-    }
-}
-
-// Replace each element of the specified array with the
-// least greater element on its right
-void findInorderSuccessor(int arr[], int n)
-{
-    // root of the binary search tree
-    Node *root = NULL;
-
-    // traverse the array from the end
-    for (int i = n - 1; i >= 0; i--)
-    {
-        // insert the current element in the binary search tree
-        // and replace it with its in-order successor
-        int successor = -1;
-        insert(root, arr[i], successor);
-        arr[i] = successor;
-    }
-
-    // print the resultant array
-    for (int i = 0; i < n; i++)
-        cout << arr[i] << " ";
-}
-
-int main()
-{
-    int arr[] = {7, 95, 16, 21, 90, 99, 6, 55, 15, 6};
-    int n = sizeof(arr) / sizeof(arr[0]);
-
-    findInorderSuccessor(arr, n);
 
     return 0;
+
 }
